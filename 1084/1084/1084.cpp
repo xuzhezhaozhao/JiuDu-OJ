@@ -1,16 +1,22 @@
-#include <stdio.h>
-#include <string.h>
-
-const int MOD = 1000000000;
-const int MAX = 1000000;
-
-
-
+/*
+思路很简单：i 为 奇数时，拆分跟前面的i-1是一样的，自己写几组就知道了，不用多说。
+关键是 i 为偶数时：当拆分中不含1时，则拆分情况最小分到2，则拆分情况跟i/2是一一对应的；
+当拆分中含有1时，先把这个1拿出来，剩下的i-1进行拆分，情况跟i-1的拆分时一一对应的；
+而这两种拆分情况是互不相交的（因为一种没1，一种有1），则加起来就是 i 为偶数时的拆分情况。
+*/
+#include <iostream>
+using namespace std;
+int c[1000002];
 int main()
 {
-	int n;
-	while (scanf("%d", &n) != EOF) {
-		
+	int n, i;
+	c[0] = c[1] = 1;
+	for (i=1; i <= 500000; i++) {
+		c[2*i] = (c[2*i-2] + c[i]) % 1000000000;
+		c[2*i+1] = c[2*i];
+	}
+	while (cin >> n) {
+		cout << c[n] << endl;
 	}
 	return 0;
 }
